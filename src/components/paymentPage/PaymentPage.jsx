@@ -26,10 +26,11 @@ const PaymentPage = () => {
     const handlePayment = async () => {
         try {
             const orderRes = await axios.post('https://event-management-system-backend-7qo6.onrender.com/api/payments/create-order', { amount: event.ticketPrice }, {withCredentials : true});
+            console.log("Order Response", orderRes);
             const { order } = orderRes.data;
 
             const options = {
-                key: rzp_live_Egt4Xg9w6VBRsl, // Razorpay key
+                key: "rzp_live_Egt4Xg9w6VBRsl", // Razorpay key
                 amount: order.amount,
                 currency: 'INR',
                 name: 'Event Management System',
