@@ -15,6 +15,7 @@ const PaymentPage = () => {
             try {
                 const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`);
                 setEvent(res.data);
+                console.log("res", res);
             } catch (error) {
                 console.error('Error fetching event details:', error);
             }
