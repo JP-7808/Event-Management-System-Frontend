@@ -11,6 +11,7 @@ import EditEvent from './components/editEvent/EditEvent';
 import PaymentPage from './components/paymentPage/PaymentPage';
 import TicketPage from './components/ticket/Ticket';
 import AttendeesPage from './components/attendees/Attendees';
+import mainPage from './pages/mainPage/mainPage';
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
             <Router>
                 <div className="App">
                     <Routes>
+                        <Route path="/" element={<mainPage/>} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
                         {/* Use ProtectedRoute to guard the dashboard */}
