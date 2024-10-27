@@ -11,7 +11,7 @@ import EditEvent from './components/editEvent/EditEvent';
 import PaymentPage from './components/paymentPage/PaymentPage';
 import TicketPage from './components/ticket/Ticket';
 import AttendeesPage from './components/attendees/Attendees';
-import MainPage from './pages/mainPage/mainPage';
+import MainPage from './pages/mainPage/MainPage';
 
 const App = () => {
     return (
