@@ -12,6 +12,19 @@ const EventDashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const fetchCurrentUser = async () => {
+            try {
+                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/auth/currentUser', { withCredentials: true });
+                setCurrentUserId(res.data._id);
+                // Fetch events only if the user is authenticated
+                fetchEvents(); 
+            } catch (error) {
+                console.error('Error fetching current user:', error);
+                // Redirect to login if the user is not authenticated
+                navigate('/login'); 
+            }
+        };
+
         const fetchEvents = async () => {
             try {
                 const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/events', { withCredentials: true });
@@ -30,18 +43,8 @@ const EventDashboard = () => {
             }
         };
 
-        const fetchCurrentUser = async () => {
-            try {
-                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/auth/currentUser', { withCredentials: true });
-                setCurrentUserId(res.data._id);
-            } catch (error) {
-                console.error('Error fetching current user:', error);
-            }
-        };
-
-        fetchEvents();
         fetchCurrentUser();
-    }, []);
+    }, [navigate]);
 
     const handleViewAttendees = (eventId) => {
         navigate(`/events/${eventId}/attendees`);
