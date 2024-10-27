@@ -2,7 +2,7 @@ import React from 'react'
 import Register from '../../components/register/Register'
 import Login from '../../components/login/Login'
 
-const mainPage = () => {
+const MainPage = () => {
   return (
     <div>
       <Register/>
@@ -11,4 +11,4 @@ const mainPage = () => {
   )
 }
 
-export default mainPage
+export default MainPage
