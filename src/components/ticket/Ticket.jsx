@@ -11,7 +11,7 @@ const TicketPage = () => {
     useEffect(() => {
         const fetchTicket = async () => {
             try {
-                const res = await axios.get(`http://localhost:6600/api/events/${eventId}/ticket`, { withCredentials: true });
+                const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}/ticket`, { withCredentials: true });
                 setTicket(res.data);
             } catch (error) {
                 console.error('Error fetching ticket:', error);

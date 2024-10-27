@@ -11,7 +11,7 @@ const EditEvent = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const response = await axios.get(`http://localhost:6600/api/events/${eventId}`, { withCredentials: true });
+                const response = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`, { withCredentials: true });
                 setEventData(response.data);
             } catch (error) {
                 console.error('Error fetching event details:', error); // Log error for debugging

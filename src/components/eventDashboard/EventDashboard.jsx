@@ -10,9 +10,9 @@ const EventDashboard = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const res = await axios.get('http://localhost:6600/api/events', { withCredentials: true });
+                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/events', { withCredentials: true });
                 const eventsWithAttendeeCount = await Promise.all(res.data.map(async (event) => {
-                    const attendeesRes = await axios.get(`http://localhost:6600/api/events/${event._id}/attendees`, { withCredentials: true });
+                    const attendeesRes = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${event._id}/attendees`, { withCredentials: true });
                     return {
                         ...event,
                         attendeeCount: attendeesRes.data.length, // Assuming attendeesRes.data contains the list of attendees
@@ -26,7 +26,7 @@ const EventDashboard = () => {
 
         const fetchCurrentUser = async () => {
             try {
-                const res = await axios.get('http://localhost:6600/api/auth/currentUser', { withCredentials: true });
+                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/auth/currentUser', { withCredentials: true });
                 setCurrentUserId(res.data._id);
             } catch (error) {
                 console.error('Error fetching current user:', error);
@@ -47,7 +47,7 @@ const EventDashboard = () => {
 
     const handleRegisterEvent = async (eventId) => {
         try {
-            const res = await axios.post(`http://localhost:6600/api/events/${eventId}/register`, {}, { withCredentials: true });
+            const res = await axios.post(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}/register`, {}, { withCredentials: true });
             alert(res.data.msg);
 
             // Refresh events list to update attendee count and details

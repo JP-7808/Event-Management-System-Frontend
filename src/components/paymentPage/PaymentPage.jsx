@@ -12,7 +12,7 @@ const PaymentPage = () => {
     const handlePayment = async () => {
         // Mock payment success
         try {
-            const res = await axios.post(`http://localhost:6600/api/events/${eventId}/ticket`, {}, { withCredentials: true });
+            const res = await axios.post(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}/ticket`, {}, { withCredentials: true });
             alert('Payment Successful! You are now registered for the event.');
 
             // Redirect to Event Dashboard after payment
