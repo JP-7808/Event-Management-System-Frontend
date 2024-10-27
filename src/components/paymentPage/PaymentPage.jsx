@@ -29,7 +29,7 @@ const PaymentPage = () => {
             const { order } = orderRes.data;
 
             const options = {
-                key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Razorpay key
+                key: rzp_live_Egt4Xg9w6VBRsl, // Razorpay key
                 amount: order.amount,
                 currency: 'INR',
                 name: 'Event Management System',
