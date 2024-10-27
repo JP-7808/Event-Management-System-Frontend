@@ -32,7 +32,7 @@ const EditEvent = () => {
         setError(null);
 
         try {
-            const response = await axios.put(`http://localhost:6600/api/events/${eventId}`, eventData, { withCredentials: true });
+            const response = await axios.put(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`, eventData, { withCredentials: true });
             alert(response.data.msg); // Notify user on success
             navigate('/dashboard'); // Redirect to dashboard or event list after updating
         } catch (error) {
