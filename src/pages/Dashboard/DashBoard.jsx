@@ -11,31 +11,55 @@ const EventDashboard = () => {
     const [currentUserId, setCurrentUserId] = useState(null);
     const navigate = useNavigate();
 
+    // Fetch token from local storage
+    const token = localStorage.getItem('token');
+
     useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
-                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/auth/currentUser', { withCredentials: true });
+                if (!token) {
+                    // Redirect to login if there’s no token
+                    navigate('/login');
+                    return;
+                }
+                
+                // Pass the token in headers
+                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/auth/currentUser', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
                 setCurrentUserId(res.data._id);
-                // Fetch events only if the user is authenticated
-                fetchEvents(); 
+                fetchEvents(); // Fetch events if the user is authenticated
             } catch (error) {
                 console.error('Error fetching current user:', error);
-                // Redirect to login if the user is not authenticated
-                navigate('/login'); 
+                // Redirect to login if authentication fails
+                navigate('/login');
             }
         };
 
         const fetchEvents = async () => {
             try {
-                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/events', { withCredentials: true });
+                const res = await axios.get('https://event-management-system-backend-7qo6.onrender.com/api/events', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
                 const eventsWithAttendeeData = await Promise.all(res.data.map(async (event) => {
-                    const attendeesRes = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${event._id}/attendees`, { withCredentials: true });
+                    const attendeesRes = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${event._id}/attendees`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     return {
                         ...event,
                         attendees: attendeesRes.data,
                         attendeeCount: attendeesRes.data.length,
                     };
                 }));
+
                 setEvents(eventsWithAttendeeData);
                 setFilteredEvents(eventsWithAttendeeData);
             } catch (error) {
@@ -44,7 +68,7 @@ const EventDashboard = () => {
         };
 
         fetchCurrentUser();
-    }, [navigate]);
+    }, [navigate, token]);
 
     const handleViewAttendees = (eventId) => {
         navigate(`/events/${eventId}/attendees`);
