@@ -13,7 +13,7 @@ const PaymentPage = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`);
+                const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`, {withCredentials : true});
                 setEvent(res.data);
                 console.log("res", res);
             } catch (error) {
