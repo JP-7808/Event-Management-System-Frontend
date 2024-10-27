@@ -84,6 +84,8 @@ const EventDashboard = () => {
                                     <h3 className="event-title">{event.title}</h3>
                                     <p className="event-description">{event.description}</p>
                                     <p className="event-location">{event.location}</p>
+                                    <p>DATE: {event.data}, Time: {event.time}</p>
+                                    
                                     <p className="event-ticket-price">Price: {event.ticketPrice}</p>
                                     
                                     {event.organizerId === currentUserId ? (
