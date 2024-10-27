@@ -21,7 +21,7 @@ const Login = () => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("https://event-management-system-backend-7qo6.onrender.com/api/auth/login", credentials,{
+      const res = await axios.post("https://event-management-system-backend-00sp.onrender.com/api/auth/login", credentials,{
         withCredentials: true,
       });
 
@@ -40,7 +40,7 @@ const Login = () => {
 
   // Handle Google Login
   const handleGoogleLogin = () => {
-    const redirectUri = "https://event-management-system-backend-7qo6.onrender.com/api/auth/google/callback"; // Ensure this matches your backend
+    const redirectUri = "https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback"; // Ensure this matches your backend
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID; // Ensure your Google Client ID is set in .env
     const scope = "profile email";
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&client_id=${clientId}`;

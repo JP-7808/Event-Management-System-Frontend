@@ -13,7 +13,7 @@ const AttendeesPage = () => {
         const fetchAttendees = async () => {
             try {
                 // Fetch the event's attendees
-                const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}/attendees`, { withCredentials: true });
+                const res = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}/attendees`, { withCredentials: true });
                 setAttendees(res.data);
             } catch (error) {
                 console.error('Error fetching attendees:', error);
@@ -23,7 +23,7 @@ const AttendeesPage = () => {
         const fetchEventTitle = async () => {
             try {
                 // Fetch event details for the title
-                const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`);
+                const res = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`);
                 setEventTitle(res.data.title);
             } catch (error) {
                 console.error('Error fetching event title:', error);

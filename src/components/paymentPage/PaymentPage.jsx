@@ -13,7 +13,7 @@ const PaymentPage = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`, {withCredentials : true});
+                const res = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, {withCredentials : true});
                 setEvent(res.data);
                 console.log("res", res);
             } catch (error) {
@@ -25,7 +25,7 @@ const PaymentPage = () => {
 
     const handlePayment = async () => {
         try {
-            const orderRes = await axios.post('https://event-management-system-backend-7qo6.onrender.com/api/payments/create-order', { amount: event.ticketPrice }, {withCredentials : true});
+            const orderRes = await axios.post('https://event-management-system-backend-00sp.onrender.com/api/payments/create-order', { amount: event.ticketPrice }, {withCredentials : true});
             console.log("Order Response", orderRes);
             const { order } = orderRes.data;
 
@@ -39,7 +39,7 @@ const PaymentPage = () => {
                 handler: async function (response) {
                     // Handle successful payment here
                     try {
-                        const ticketRes = await axios.post(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}/ticket`, {}, { withCredentials: true });
+                        const ticketRes = await axios.post(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}/ticket`, {}, { withCredentials: true });
                         alert('Payment Successful! You are now registered for the event.');
                         navigate(`/events/${eventId}/ticket`);
                     } catch (error) {

@@ -23,7 +23,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('https://event-management-system-backend-7qo6.onrender.com/api/auth/register', user);
+            const res = await axios.post('https://event-management-system-backend-00sp.onrender.com/api/auth/register', user);
             console.log(res.data);
             alert(res.data.msg);
             navigate('/login');

@@ -13,7 +13,7 @@ const GoogleCallback = () => {
 
             try {
                 // Call your backend to exchange code for user info
-                const res = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/auth/google/callback?code=${code}`);
+                const res = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback?code=${code}`);
                 const userDetails = res.data.details;
 
                 // Store user in localStorage

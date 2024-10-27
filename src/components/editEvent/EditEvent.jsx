@@ -11,7 +11,7 @@ const EditEvent = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const response = await axios.get(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`, { withCredentials: true });
+                const response = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, { withCredentials: true });
                 setEventData(response.data);
             } catch (error) {
                 console.error('Error fetching event details:', error); // Log error for debugging
@@ -32,7 +32,7 @@ const EditEvent = () => {
         setError(null);
 
         try {
-            const response = await axios.put(`https://event-management-system-backend-7qo6.onrender.com/api/events/${eventId}`, eventData, { withCredentials: true });
+            const response = await axios.put(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, eventData, { withCredentials: true });
             alert(response.data.msg); // Notify user on success
             navigate('/dashboard'); // Redirect to dashboard or event list after updating
         } catch (error) {
@@ -46,7 +46,7 @@ const EditEvent = () => {
         if (!confirmDelete) return;
 
         try {
-            await axios.delete(`http://localhost:6600/api/events/${eventId}`, { withCredentials: true });
+            await axios.delete(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, { withCredentials: true });
             alert('Event deleted successfully');
             navigate('/dashboard'); // Redirect after deletion
         } catch (error) {
