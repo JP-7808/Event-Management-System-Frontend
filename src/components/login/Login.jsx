@@ -77,9 +77,9 @@ const Login = () => {
         </button>
 
         {/* Google login button */}
-        <button onClick={handleGoogleLogin} className="lButton">
+        {/* {<button onClick={handleGoogleLogin} className="lButton">
           Login with Google
-        </button>
+        </button>} */}
 
         {error && <span>{error.message}</span>}
       </div>
