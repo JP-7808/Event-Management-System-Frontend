@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
 import './eventCreation.css'; 
+import Navbar from '../nav/Nav';
 
 const EventCreation = () => {
     const [formData, setFormData] = useState({
@@ -14,6 +16,8 @@ const EventCreation = () => {
     });
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const [isLoading, setIsLoading] = useState(false); 
+    const navigate = useNavigate(); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,6 +31,7 @@ const EventCreation = () => {
         e.preventDefault();
         setError(null);
         setSuccess(null);
+        setIsLoading(true); // Set loading to true
         const token = localStorage.getItem('token');
 
         try {
@@ -46,12 +51,17 @@ const EventCreation = () => {
                 ticketPrice: '',
                 privacy: 'public',
             });
+            setTimeout(() => navigate('/dashboard'), 2000); // Navigate to dashboard after 2 seconds
         } catch (error) {
             setError(error.response?.data?.msg || 'Failed to create event');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
+        <>
+        <Navbar/>
         <div className="container">
             <h2>Create Event</h2>
             <form onSubmit={handleSubmit}>
@@ -86,11 +96,14 @@ const EventCreation = () => {
                         <option value="private">Private</option>
                     </select>
                 </div>
-                <button type="submit">Create Event</button>
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Creating...' : 'Create Event'}
+                </button>
             </form>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {success && <p style={{ color: 'green' }}>{success}</p>}
         </div>
+        </>
     );
 };
 

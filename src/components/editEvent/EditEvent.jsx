@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import './editEvent.css';
+import Navbar from '../nav/Nav';
 
 const EditEvent = () => {
     const { eventId } = useParams(); 
@@ -77,6 +78,8 @@ const EditEvent = () => {
     }
 
     return (
+        <>
+        <Navbar/>
         <div className="edit-event-container">
             <h2>Edit Event</h2>
             {error && <div className="error-message">{error}</div>}
@@ -120,6 +123,7 @@ const EditEvent = () => {
                 </div>
             </form>
         </div>
+        </>
     );
 };
 

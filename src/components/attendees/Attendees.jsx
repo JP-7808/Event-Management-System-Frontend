@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './attendees.css';
+import Navbar from '../nav/Nav';
 
 const AttendeesPage = () => {
     const { eventId } = useParams();
@@ -34,6 +35,8 @@ const AttendeesPage = () => {
     }, [eventId]);
 
     return (
+        <>
+        <Navbar/>
         <div className="attendees-page">
             <h2>Attendees for Event: {eventTitle}</h2>
             <p className="attendee-count">Total Attendees: {attendees.length}</p>
@@ -50,6 +53,7 @@ const AttendeesPage = () => {
                 <p>No attendees registered yet.</p>
             )}
         </div>
+        </>
     );
 };
 

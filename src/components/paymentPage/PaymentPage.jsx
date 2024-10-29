@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import './paymentPage.css';
+import Navbar from '../nav/Nav';
 
 const PaymentPage = () => {
     const { eventId } = useParams();
@@ -64,6 +65,8 @@ const PaymentPage = () => {
     if (!event) return <p>Loading event details...</p>;
 
     return (
+        <>
+        <Navbar/>
         <div className="payment-container">
             <h2>Complete Payment for Event</h2>
             <div className="event-details">
@@ -73,6 +76,7 @@ const PaymentPage = () => {
                 <button onClick={handlePayment} className="pay-now-btn">Pay Now</button>
             </div>
         </div>
+        </>
     );
 };
 

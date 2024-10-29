@@ -73,9 +73,11 @@ const EventDashboard = () => {
     };
 
     return (
+        <>
+        <Navbar />
+        <NavBar onSearch={handleSearch} />
         <div className="event-dashboard">
-            <Navbar />
-            <NavBar onSearch={handleSearch} />
+            
             <div className="dashboard-content">
                 <h2>Your Events</h2>
                 {loading ? ( // Conditional rendering for loading state
@@ -119,6 +121,7 @@ const EventDashboard = () => {
                 )}
             </div>
         </div>
+        </>
     );
 };
 

@@ -4,7 +4,7 @@ import './navBar.css';
 const NavBar = ({ onSearch }) => {
     return (
         <nav className="nav-bar">
-            <div className="logo">Event Dashboard</div>
+            <div className="logo">Event Search</div>
             <form className="search-form" onSubmit={onSearch}>
                 <input 
                     type="text" 
