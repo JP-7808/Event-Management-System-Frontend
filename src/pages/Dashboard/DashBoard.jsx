@@ -1,14 +1,15 @@
-// EventDashboard.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../../components/navBar/NavBar.jsx';
 import './dashboard.css';
+import Navbar from '../../components/nav/Nav.jsx';
 
 const EventDashboard = () => {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [currentUserId, setCurrentUserId] = useState(null);
+    const [loading, setLoading] = useState(true); // New loading state
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,6 +28,8 @@ const EventDashboard = () => {
                 setFilteredEvents(eventsWithAttendeeData);
             } catch (error) {
                 console.error('Error fetching events:', error);
+            } finally {
+                setLoading(false); // Set loading to false after fetching events
             }
         };
 
@@ -71,44 +74,49 @@ const EventDashboard = () => {
 
     return (
         <div className="event-dashboard">
+            <Navbar />
             <NavBar onSearch={handleSearch} />
             <div className="dashboard-content">
                 <h2>Your Events</h2>
-                <ul className="event-list">
-                    {filteredEvents.length > 0 ? (
-                        filteredEvents.map(event => {
-                            const isRegistered = event.attendees.some(attendee => attendee._id === currentUserId);
-                            
-                            return (
-                                <li className="event-item" key={event._id}>
-                                    <h3 className="event-title">{event.title}</h3>
-                                    <p className="event-description">{event.description}</p>
-                                    <p className="event-location">{event.location}</p>
-                                    <p>DATE: {event.date}, Time: {event.time}</p>
-                                    
-                                    <p className="event-ticket-price">Price: {event.ticketPrice}</p>
-                                    
-                                    {event.organizerId === currentUserId ? (
-                                        <div className="event-actions">
-                                            <button className="view-attendees-btn" onClick={() => handleViewAttendees(event._id)}>
-                                                View Attendees ({event.attendeeCount || 0})
-                                            </button>
-                                            <button className="edit-event-btn" onClick={() => handleEditEvent(event._id)}>
-                                                Edit Event
-                                            </button>
-                                        </div>
-                                    ) : isRegistered ? (
-                                        <button className="view-ticket-btn" onClick={() => navigate(`/events/${event._id}/ticket`)}>View Ticket</button>
-                                    ) : (
-                                        <button className="register-event-btn" onClick={() => handleRegisterEvent(event._id)}>Register for Event</button>
-                                    )}
-                                </li>
-                            );
-                        })
-                    ) : (
-                        <p className="no-events">No events found.</p>
-                    )}
-                </ul>
+                {loading ? ( // Conditional rendering for loading state
+                    <p>Loading events...</p>
+                ) : (
+                    <ul className="event-list">
+                        {filteredEvents.length > 0 ? (
+                            filteredEvents.map(event => {
+                                const isRegistered = event.attendees.some(attendee => attendee._id === currentUserId);
+                                
+                                return (
+                                    <li className="event-item" key={event._id}>
+                                        <h3 className="event-title">{event.title}</h3>
+                                        <p className="event-description">{event.description}</p>
+                                        <p className="event-location">{event.location}</p>
+                                        <p>DATE: {event.date}, Time: {event.time}</p>
+                                        
+                                        <p className="event-ticket-price">Price: {event.ticketPrice}</p>
+                                        
+                                        {event.organizerId === currentUserId ? (
+                                            <div className="event-actions">
+                                                <button className="view-attendees-btn" onClick={() => handleViewAttendees(event._id)}>
+                                                    View Attendees ({event.attendeeCount || 0})
+                                                </button>
+                                                <button className="edit-event-btn" onClick={() => handleEditEvent(event._id)}>
+                                                    Edit Event
+                                                </button>
+                                            </div>
+                                        ) : isRegistered ? (
+                                            <button className="view-ticket-btn" onClick={() => navigate(`/events/${event._id}/ticket`)}>View Ticket</button>
+                                        ) : (
+                                            <button className="register-event-btn" onClick={() => handleRegisterEvent(event._id)}>Register for Event</button>
+                                        )}
+                                    </li>
+                                );
+                            })
+                        ) : (
+                            <p className="no-events">No events found.</p>
+                        )}
+                    </ul>
+                )}
             </div>
         </div>
     );

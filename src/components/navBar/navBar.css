@@ -1,0 +1,32 @@
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.button {
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}

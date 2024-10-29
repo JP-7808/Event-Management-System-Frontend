@@ -10,6 +10,7 @@ const Register = () => {
         password: ''
     });
     
+    const [loading, setLoading] = useState(false); 
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -22,14 +23,18 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); 
         try {
             const res = await axios.post('https://event-management-system-backend-00sp.onrender.com/api/auth/register', user);
             console.log(res.data);
-            alert(res.data.msg);
-            navigate('/login');
+            alert(res.data, "please Login");
+            setUser({ name: '', email: '', password: '' }); 
+            navigate('/');
         } catch (err) {
             console.error(err.response.data);
             alert(err.response.data.msg);
+        } finally {
+            setLoading(false); 
         }
     };
 
@@ -61,8 +66,11 @@ const Register = () => {
                     onChange={handleChange}
                     required
                 />
-                <button type="submit">Register</button>
+                <button type="submit" disabled={loading}> 
+                    {loading ? 'Registering...' : 'Register'} 
+                </button>
             </form>
+            {loading && <p>Loading, please wait...</p>} 
         </div>
     );
 };

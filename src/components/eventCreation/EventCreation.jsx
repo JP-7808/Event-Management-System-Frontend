@@ -1,7 +1,6 @@
-// EventCreation.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import './eventCreation.css'; // Import the CSS file
+import './eventCreation.css'; 
 
 const EventCreation = () => {
     const [formData, setFormData] = useState({
@@ -11,7 +10,7 @@ const EventCreation = () => {
         time: '',
         location: '',
         ticketPrice: '',
-        privacy: 'public', // Default value
+        privacy: 'public',
     });
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -34,7 +33,7 @@ const EventCreation = () => {
             const response = await axios.post('https://event-management-system-backend-00sp.onrender.com/api/events/create', formData, {
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${token}` // Include the token in the Authorization header
+                    Authorization: `Bearer ${token}` 
                 }
             });
             setSuccess(response.data.message);

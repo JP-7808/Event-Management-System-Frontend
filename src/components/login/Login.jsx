@@ -1,6 +1,7 @@
-import axios from "axios";
-import { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
 
@@ -21,16 +22,18 @@ const Login = () => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("https://event-management-system-backend-00sp.onrender.com/api/auth/login", credentials,{
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "https://event-management-system-backend-00sp.onrender.com/api/auth/login",
+        credentials,
+        { withCredentials: true }
+      );
 
       // Store the token in localStorage
-      localStorage.setItem('token', res.data.token); // Save the JWT token
+      localStorage.setItem("token", res.data.token); // Save the JWT token
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
 
       // Store user info in localStorage if needed
-      localStorage.setItem('user', JSON.stringify(res.data.details));
+      localStorage.setItem("user", JSON.stringify(res.data.details));
 
       navigate("/dashboard"); // Redirect to the dashboard after login
     } catch (err) {
@@ -40,17 +43,22 @@ const Login = () => {
 
   // Handle Google Login
   const handleGoogleLogin = () => {
-    const redirectUri = "https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback"; // Ensure this matches your backend
+    const redirectUri =
+      "https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback"; // Ensure this matches your backend
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID; // Ensure your Google Client ID is set in .env
     const scope = "profile email";
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&client_id=${clientId}`;
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&scope=${encodeURIComponent(scope)}&client_id=${clientId}`;
 
     // Redirect the user to the Google login page
     window.location.href = authUrl;
   };
 
   return (
+    <>
     <div className="login">
+      <h2></h2>
       <div className="lContainer">
         <input
           type="text"
@@ -78,6 +86,7 @@ const Login = () => {
         {error && <span>{error.message}</span>}
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-// AttendeesPage.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -37,12 +36,13 @@ const AttendeesPage = () => {
     return (
         <div className="attendees-page">
             <h2>Attendees for Event: {eventTitle}</h2>
+            <p className="attendee-count">Total Attendees: {attendees.length}</p>
             {attendees.length > 0 ? (
                 <ul className="attendees-list">
                     {attendees.map((attendee) => (
                         <li key={attendee._id} className="attendee-item">
-                            <p>Name: {attendee.name}</p>
-                            <p>Email: {attendee.email}</p>
+                            <p><strong>Name:</strong> {attendee.name}</p>
+                            <p><strong>Email:</strong> {attendee.email}</p>
                         </li>
                     ))}
                 </ul>

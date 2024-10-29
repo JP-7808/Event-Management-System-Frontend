@@ -1,0 +1,90 @@
+
+.edit-event-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-event-container h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.edit-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-event-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.edit-event-form input,
+.edit-event-form textarea,
+.edit-event-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.edit-event-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.edit-event-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.edit-event-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+.edit-event-buttons button[type="submit"] {
+    background-color: #4CAF50; 
+    color: white;
+}
+
+.edit-event-buttons button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.edit-event-buttons button[type="button"] {
+    background-color: #f44336;
+    color: white;
+    margin-left: 10px;
+}
+
+.edit-event-buttons button[type="button"]:hover {
+    background-color: #e53935;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.loading-message {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+}

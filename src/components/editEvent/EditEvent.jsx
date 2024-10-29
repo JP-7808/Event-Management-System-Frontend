@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import './editEvent.css';
 
 const EditEvent = () => {
-    const { eventId } = useParams(); // Get the event ID from the URL
+    const { eventId } = useParams(); 
     const [eventData, setEventData] = useState(null);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true); 
+    const [updating, setUpdating] = useState(false); 
+    const [deleting, setDeleting] = useState(false); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,8 +18,10 @@ const EditEvent = () => {
                 const response = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, { withCredentials: true });
                 setEventData(response.data);
             } catch (error) {
-                console.error('Error fetching event details:', error); // Log error for debugging
-                setError('Error fetching event details'); // Set error message to display
+                console.error('Error fetching event details:', error);
+                setError('Error fetching event details');
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -30,14 +36,17 @@ const EditEvent = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         setError(null);
+        setUpdating(true); 
 
         try {
             const response = await axios.put(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, eventData, { withCredentials: true });
-            alert(response.data.msg); // Notify user on success
-            navigate('/dashboard'); // Redirect to dashboard or event list after updating
+            alert(response.data.msg); 
+            navigate('/dashboard'); 
         } catch (error) {
-            console.error('Error updating event:', error); // Log error for debugging
-            setError('Error updating event'); // Set error message to display
+            console.error('Error updating event:', error);
+            setError('Error updating event');
+        } finally {
+            setUpdating(false); 
         }
     };
 
@@ -45,40 +54,44 @@ const EditEvent = () => {
         const confirmDelete = window.confirm('Are you sure you want to delete this event?');
         if (!confirmDelete) return;
 
+        setDeleting(true); 
         try {
             await axios.delete(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, { withCredentials: true });
             alert('Event deleted successfully');
-            navigate('/dashboard'); // Redirect after deletion
+            navigate('/dashboard'); 
         } catch (error) {
-            console.error('Error deleting event:', error); // Log error for debugging
-            setError('Error deleting event'); // Set error message to display
+            console.error('Error deleting event:', error);
+            setError('Error deleting event');
+        } finally {
+            setDeleting(false); 
         }
     };
 
-    // Handle loading state separately
-    if (error) {
-        return <div style={{ color: 'red' }}>{error}</div>; // Show error message if there's an error
+    // Handle loading state
+    if (loading) {
+        return <div className="loading-message">Loading event data...</div>; 
     }
 
-    if (!eventData) {
-        return <div>Loading...</div>; // Show loading message while fetching data
+    if (error) {
+        return <div className="error-message">{error}</div>; 
     }
 
     return (
-        <div>
+        <div className="edit-event-container">
             <h2>Edit Event</h2>
-            <form onSubmit={handleUpdate}>
+            {error && <div className="error-message">{error}</div>}
+            <form onSubmit={handleUpdate} className="edit-event-form">
                 <div>
                     <label>Title:</label>
                     <input type="text" name="title" value={eventData.title} onChange={handleChange} required />
                 </div>
                 <div>
                     <label>Description:</label>
-                    <textarea name="description" value={eventData.description} onChange={handleChange}></textarea>
+                    <textarea name="description" value={eventData.description} onChange={handleChange} />
                 </div>
                 <div>
                     <label>Date:</label>
-                    <input type="date" name="date" value={eventData.date.split('T')[0]} onChange={handleChange} required /> {/* Format date for input */}
+                    <input type="date" name="date" value={eventData.date.split('T')[0]} onChange={handleChange} required />
                 </div>
                 <div>
                     <label>Time:</label>
@@ -99,10 +112,12 @@ const EditEvent = () => {
                         <option value="private">Private</option>
                     </select>
                 </div>
-                <button type="submit">Update Event</button>
-                <button type="button" onClick={handleDelete} style={{ marginLeft: '10px', backgroundColor: 'red', color: 'white' }}>
-                    Delete Event
-                </button>
+                <div className="edit-event-buttons">
+                    <button type="submit" disabled={updating}> {updating ? "Updating..." : "Update Event"} </button>
+                    <button type="button" onClick={handleDelete} disabled={deleting} style={{ marginLeft: '10px' }}>
+                        {deleting ? "Deleting..." : "Delete Event"}
+                    </button>
+                </div>
             </form>
         </div>
     );
