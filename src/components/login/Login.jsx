@@ -43,7 +43,7 @@ const Login = () => {
 
   // Handle Google Login
   const handleGoogleLogin = () => {
-    const redirectUri = "https://event-management-system-frontend-liart.vercel.app/auth/google/callback";
+    const redirectUri = "https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback";
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const scope = "profile email";
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&redirect_uri=${encodeURIComponent(
