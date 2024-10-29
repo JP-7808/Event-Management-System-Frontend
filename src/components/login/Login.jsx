@@ -43,14 +43,14 @@ const Login = () => {
 
   // Handle Google Login
   const handleGoogleLogin = () => {
-    const redirectUri = "https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback";
-    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const redirectUri = "https://event-management-system-frontend-liart.vercel.app"; // Your frontend URL
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID; // Ensure this is set correctly
     const scope = "profile email";
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&redirect_uri=${encodeURIComponent(
       redirectUri
     )}&scope=${encodeURIComponent(scope)}&client_id=${clientId}`;
 
-    window.location.href = authUrl;
+    window.location.href = authUrl; // Redirect to Google OAuth
   };
 
   return (
