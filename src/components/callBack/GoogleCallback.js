@@ -13,8 +13,8 @@ const GoogleCallback = () => {
 
             try {
                 // Call your backend to exchange code for user info
-                const res = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback?code=${code}`);
-                const userDetails = res.data.details;
+                const res = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback?code=${code}`, { withCredentials: true });
+                const userDetails = res.data.user; // Adjust according to your backend response
 
                 // Store user in localStorage
                 localStorage.setItem("user", JSON.stringify(userDetails));
@@ -23,7 +23,7 @@ const GoogleCallback = () => {
                 navigate("/dashboard");
             } catch (error) {
                 console.error("Error fetching Google user", error);
-                // Handle error case
+                // Handle error case, e.g., navigate to login or show an error message
             }
         };
 
