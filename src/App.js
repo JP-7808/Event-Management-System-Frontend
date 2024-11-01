@@ -7,6 +7,7 @@ import PaymentPage from './components/paymentPage/PaymentPage';
 import TicketPage from './components/ticket/Ticket';
 import AttendeesPage from './components/attendees/Attendees';
 import MainPage from './pages/mainPage/MainPage';
+import Login from './components/login/Login';
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<MainPage/>} />
                         {/* Use ProtectedRoute to guard the dashboard */}
+                        <Route path='/login' element={<Login/>}/>
                         <Route path='/dashboard' element={<DashBoard/>} />
                         <Route path="/eventCreation" element={<EventCreation/>} />
 
