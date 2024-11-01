@@ -57,18 +57,20 @@ const Login = () => {
           "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
           { withCredentials: true }
         );
-
-        console.log("Response data:", res.data);
+  
         if (res.data.isAuthenticated) {
+          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+          localStorage.setItem("user", JSON.stringify(res.data.user));
           navigate("/dashboard");
         }
       } catch (err) {
         console.error("Error fetching Google user after login:", err);
       }
     };
-
+  
     fetchGoogleUser();
   }, [dispatch, navigate]);
+  
 
   return (
     <div className="login">
