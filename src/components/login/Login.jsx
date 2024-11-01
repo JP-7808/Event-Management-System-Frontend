@@ -42,9 +42,15 @@ const Login = () => {
   };
 
   // Handle Google Login
-  const handleGoogleLogin = () => {
-    window.location.href = 'https://event-management-system-backend-00sp.onrender.com/api/auth/google';
+  const handleGoogleLogin = async () => {
+    try {
+        // Initiates the Google login process
+        window.location.href = 'https://event-management-system-backend-00sp.onrender.com/api/auth/google';
+    } catch (err) {
+        console.error("Error during Google login:", err);
+    }
   };
+
 
   // Check for Google login redirect success
   useEffect(() => {
@@ -54,7 +60,7 @@ const Login = () => {
           "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
           { withCredentials: true }
         );
-
+        console.log("res of : ", res);
         if (res.data.isAuthenticated) {
           dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
           navigate("/dashboard"); // Redirect to dashboard after successful Google login
