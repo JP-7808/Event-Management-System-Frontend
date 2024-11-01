@@ -42,11 +42,7 @@ const Login = () => {
 
   // Google login handler
   const handleGoogleLogin = () => {
-    window.open(
-      "https://event-management-system-backend-00sp.onrender.com/api/auth/google",
-      "_self"
-    );
-
+    window.location.href = "https://event-management-system-backend-00sp.onrender.com/api/auth/google";
   };
 
   // Fetch Google login status after redirection
@@ -65,9 +61,11 @@ const Login = () => {
         }
       } catch (err) {
         console.error("Error fetching Google user after login:", err);
+        dispatch({ type: "LOGIN_FAILURE", payload: { message: "Failed to fetch Google user" } });
       }
     };
   
+    // Only fetch Google user status if the user is already authenticated
     fetchGoogleUser();
   }, [dispatch, navigate]);
   
