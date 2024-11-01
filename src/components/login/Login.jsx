@@ -43,20 +43,10 @@ const Login = () => {
   // Handle Google Login
   const handleGoogleLogin = async () => {
     try {
-        const response = await axios.get(
-            'https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback',
-            { withCredentials: true }
-        );
-
-        // Store the token and user details
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.details));
-        dispatch({ type: 'LOGIN_SUCCESS', payload: response.data.details });
-
-        // Redirect to dashboard after successful login
-        navigate('/dashboard');
-    } catch (error) {
-        console.error("Error during Google login:", error);
+      // Initiates the Google login process
+      window.location.href = 'https://event-management-system-backend-00sp.onrender.com/api/auth/google';
+    } catch (err) {
+      console.error("Error during Google login:", err);
     }
   };
 
