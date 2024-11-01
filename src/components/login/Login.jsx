@@ -1,92 +1,114 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import "./login.css";
 
 const Login = () => {
-    const [credentials, setCredentials] = useState({
-        email: "",
-        password: ""
-    });
+  const [credentials, setCredentials] = useState({
+    email: undefined,
+    password: undefined,
+  });
 
-    const { dispatch } = useContext(AuthContext);
-    const navigate = useNavigate();
+  const { loading, error, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    };
+  const handleChange = (e) => {
+    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
 
-    const handleClick = async (e) => {
-        e.preventDefault();
-        dispatch({ type: "LOGIN_START" });
+  const handleClick = async (e) => {
+    e.preventDefault();
+    dispatch({ type: "LOGIN_START" });
+    try {
+      const res = await axios.post(
+        "https://event-management-system-backend-00sp.onrender.com/api/auth/login",
+        credentials,
+        { withCredentials: true }
+      );
+
+      // Store the token in localStorage
+      localStorage.setItem("token", res.data.token); // Save the JWT token
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+
+      // Store user info in localStorage if needed
+      localStorage.setItem("user", JSON.stringify(res.data.details));
+
+      navigate("/dashboard"); // Redirect to the dashboard after login
+    } catch (err) {
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+    }
+  };
+
+  // Handle Google Login
+const handleGoogleLogin = async () => {
+  try {
+      window.open('https://event-management-system-backend-00sp.onrender.com/api/auth/google', '_self');
+  } catch (err) {
+      console.error("Error during Google login:", err);
+  }
+};
+
+  // Handle Google Login response after redirect
+  useEffect(() => {
+    const fetchGoogleUser = async () => {
         try {
-            const res = await axios.post(
-                "https://event-management-system-backend-00sp.onrender.com/api/auth/login",
-                credentials,
+            const res = await axios.get(
+                "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
                 { withCredentials: true }
             );
 
-            if (res.data.token && res.data.user) {
-                // Store the token and user data in localStorage if needed
+            // Check if the user is authenticated
+            if (res.data.isAuthenticated) {
+                // Save token and user details to localStorage
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", JSON.stringify(res.data.user));
-
+                
+                // Dispatch to update context
                 dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
-
-                // Redirect to the dashboard after successful login
+                
                 navigate("/dashboard");
-            } else {
-                console.error("Login response missing token or user details:", res.data);
-                dispatch({ type: "LOGIN_FAILURE", payload: { msg: "Login failed: Invalid response format" } });
             }
         } catch (err) {
-            console.error("Login failed:", err);
-            dispatch({ type: "LOGIN_FAILURE", payload: err.response ? err.response.data : { msg: "An error occurred" } });
+            console.error("Error fetching Google user after login:", err);
         }
     };
 
-    const handleGoogleLogin = async () => {
-        try {
-            const res = await axios.get("https://event-management-system-backend-00sp.onrender.com/api/auth/google", {
-                withCredentials: true,
-            });
+    fetchGoogleUser();
+  }, [dispatch, navigate]);
 
-            if (res.data.token && res.data.user) {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("user", JSON.stringify(res.data.user));
 
-                dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
-                navigate("/dashboard");
-            } else {
-                console.error("Google login response missing token or user details:", res.data);
-                dispatch({ type: "LOGIN_FAILURE", payload: { msg: "Google login failed: Invalid response format" } });
-            }
-        } catch (err) {
-            console.error("Google login failed:", err);
-            dispatch({ type: "LOGIN_FAILURE", payload: err.response ? err.response.data : { msg: "An error occurred" } });
-        }
-    };
+  return (
+    <div className="login">
+      <h2>Login</h2>
+      <div className="lContainer">
+        <input
+          type="text"
+          placeholder="Email"
+          id="email"
+          onChange={handleChange}
+          className="lInput"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          id="password"
+          onChange={handleChange}
+          className="lInput"
+        />
+        <button disabled={loading} onClick={handleClick} className="lButton">
+          Login
+        </button>
 
-    return (
-        <div className="login">
-            <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                onChange={handleChange}
-                value={credentials.email}
-            />
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChange}
-                value={credentials.password}
-            />
-            <button onClick={handleClick}>Login with Email</button>
-            <button onClick={handleGoogleLogin}>Login with Google</button>
-        </div>
-    );
+        {/* Google login button */}
+        <button onClick={handleGoogleLogin} className="lButton">
+          Login with Google
+        </button>
+
+        {error && <span>{error.message}</span>}
+      </div>
+    </div>
+  );
 };
 
 export default Login;
