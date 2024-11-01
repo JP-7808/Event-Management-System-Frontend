@@ -57,10 +57,11 @@ const handleGoogleLogin = async () => {
                 "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
                 { withCredentials: true }
             );
+            console.log("res hai", res);
 
             // Check if the user is authenticated
             if (res.data.isAuthenticated) {
-                // Save token and user details to localStorage
+                // Save user details and token to localStorage
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", JSON.stringify(res.data.user));
                 
@@ -76,6 +77,7 @@ const handleGoogleLogin = async () => {
 
     fetchGoogleUser();
   }, [dispatch, navigate]);
+
 
 
   return (

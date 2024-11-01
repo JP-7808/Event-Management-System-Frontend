@@ -8,6 +8,7 @@ import './nav.css'; // Import the external CSS file
 const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
+    console.log("Current User in Navbar:", user);
 
     const handleLogout = async () => {
         try {
