@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
@@ -44,13 +43,12 @@ const Login = () => {
   // Handle Google Login
   const handleGoogleLogin = async () => {
     try {
-        // Initiates the Google login process
-        window.location.href = 'https://event-management-system-backend-00sp.onrender.com/api/auth/google';
+      // Initiates the Google login process
+      window.location.href = 'https://event-management-system-backend-00sp.onrender.com/api/auth/google';
     } catch (err) {
-        console.error("Error during Google login:", err);
+      console.error("Error during Google login:", err);
     }
   };
-
 
   // Check for Google login redirect success
   useEffect(() => {
@@ -60,34 +58,32 @@ const Login = () => {
           "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
           { withCredentials: true }
         );
-        console.log("res of : ", res);
+        console.log("Google login response:", res.data); // Detailed logging
         if (res.data.isAuthenticated) {
-          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user }); // Ensure user details are dispatched
+          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
           navigate("/dashboard"); // Redirect to dashboard after successful Google login
         }
       } catch (err) {
-        console.log("Google login not authenticated");
+        console.error("Google login not authenticated:", err);
       }
     };
     checkGoogleLogin();
   }, [dispatch, navigate]);
 
-
   return (
-    
     <div className="login">
-      <h2></h2>
+      <h2>Login</h2>
       <div className="lContainer">
         <input
           type="text"
-          placeholder="email"
+          placeholder="Email"
           id="email"
           onChange={handleChange}
           className="lInput"
         />
         <input
           type="password"
-          placeholder="password"
+          placeholder="Password"
           id="password"
           onChange={handleChange}
           className="lInput"
@@ -97,14 +93,13 @@ const Login = () => {
         </button>
 
         {/* Google login button */}
-        {<button onClick={handleGoogleLogin} className="lButton">
+        <button onClick={handleGoogleLogin} className="lButton">
           Login with Google
-        </button>}
+        </button>
 
         {error && <span>{error.message}</span>}
       </div>
     </div>
-  
   );
 };
 
