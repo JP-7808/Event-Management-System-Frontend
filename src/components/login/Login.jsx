@@ -62,7 +62,7 @@ const Login = () => {
         );
         console.log("res of : ", res);
         if (res.data.isAuthenticated) {
-          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user }); // Ensure user details are dispatched
           navigate("/dashboard"); // Redirect to dashboard after successful Google login
         }
       } catch (err) {
@@ -71,6 +71,7 @@ const Login = () => {
     };
     checkGoogleLogin();
   }, [dispatch, navigate]);
+
 
   return (
     
