@@ -58,7 +58,8 @@ const handleGoogleLogin = async () => {
                 { withCredentials: true }
             );
             
-            console.log("res hai", res.data);
+            console.log("Response received:", res); // Log full response
+            console.log("Response data:", res.data); // Log response data only
             if (res.data.isAuthenticated) {
                 // Dispatch to update user in AuthContext
                 dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
