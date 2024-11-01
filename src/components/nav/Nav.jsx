@@ -1,17 +1,27 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import Cookies from 'js-cookie';
 import './nav.css'; // Import the external CSS file
 
 const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        dispatch({ type: "LOGOUT" });
-        localStorage.removeItem("user"); // Remove user from localStorage
-        localStorage.removeItem("token"); // Remove token from localStorage
-        navigate('/'); // Redirect to the homepage after logout
+    const handleLogout = async () => {
+        try {
+            await axios.post('https://event-management-system-backend-00sp.onrender.com/api/auth/logout', {}, {
+                withCredentials: true // Send cookies with the request if using sessions
+            });
+            dispatch({ type: "LOGOUT" });
+            localStorage.removeItem("user"); // Remove user from localStorage
+            localStorage.removeItem("token"); // Remove token from localStorage
+            Cookies.remove('access_token'); // Remove token from cookies
+            navigate('/'); // Redirect to the homepage after logout
+        } catch (error) {
+            console.error("Logout failed:", error);
+            // Handle error if needed
+        }
     };
 
     return (
