@@ -57,16 +57,14 @@ const handleGoogleLogin = async () => {
                 "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
                 { withCredentials: true }
             );
-            console.log("res hai", res);
 
-            // Check if the user is authenticated
             if (res.data.isAuthenticated) {
-                // Save user details and token to localStorage
+                // Dispatch to update user in AuthContext
+                dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+
+                // Store user data and token in localStorage
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("user", JSON.stringify(res.data.user));
-                
-                // Dispatch to update context
-                dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
                 
                 navigate("/dashboard");
             }
@@ -76,7 +74,7 @@ const handleGoogleLogin = async () => {
     };
 
     fetchGoogleUser();
-  }, [dispatch, navigate]);
+}, [dispatch, navigate]);
 
 
 
