@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -43,18 +43,31 @@ const Login = () => {
 
   // Handle Google Login
   const handleGoogleLogin = () => {
-    const redirectUri = "https://event-management-system-backend-00sp.onrender.com/api/auth/google/callback";
-    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-    const scope = "profile email";
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&scope=${encodeURIComponent(scope)}&client_id=${clientId}`;
-
-    window.location.href = authUrl;
+    window.location.href = 'https://event-management-system-backend-00sp.onrender.com/api/auth/google';
   };
 
+  // Check for Google login redirect success
+  useEffect(() => {
+    const checkGoogleLogin = async () => {
+      try {
+        const res = await axios.get(
+          "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
+          { withCredentials: true }
+        );
+
+        if (res.data.isAuthenticated) {
+          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+          navigate("/dashboard"); // Redirect to dashboard after successful Google login
+        }
+      } catch (err) {
+        console.log("Google login not authenticated");
+      }
+    };
+    checkGoogleLogin();
+  }, [dispatch, navigate]);
+
   return (
-    <>
+    
     <div className="login">
       <h2></h2>
       <div className="lContainer">
@@ -77,14 +90,14 @@ const Login = () => {
         </button>
 
         {/* Google login button */}
-        {/* {<button onClick={handleGoogleLogin} className="lButton">
+        {<button onClick={handleGoogleLogin} className="lButton">
           Login with Google
-        </button>} */}
+        </button>}
 
         {error && <span>{error.message}</span>}
       </div>
     </div>
-    </>
+  
   );
 };
 
