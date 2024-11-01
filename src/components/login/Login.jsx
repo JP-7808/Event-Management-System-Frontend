@@ -41,11 +41,23 @@ const Login = () => {
   };
 
   // Google login handler
-  const handleGoogleLogin = () => {
-    window.open(
-      "https://event-management-system-backend-00sp.onrender.com/api/auth/google",
-      "_self"
-    );
+  const handleGoogleLogin = async() => {
+    dispatch({ type: "LOGIN_START" });
+    try {
+      const res = await axios.get(
+        "https://event-management-system-backend-00sp.onrender.com/api/auth/google",
+        { withCredentials: true }
+      );
+
+      // Store the token and user details
+      localStorage.setItem("token", res.data.token);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      localStorage.setItem("user", JSON.stringify(res.data.details));
+
+      navigate("/dashboard");
+    } catch (err) {
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response?.data });
+    }
 
   };
 
@@ -65,6 +77,7 @@ const Login = () => {
         }
       } catch (err) {
         console.error("Error fetching Google user after login:", err);
+        dispatch({ type: "LOGIN_FAILURE", payload: { message: "Failed to fetch Google user" } });
       }
     };
   
