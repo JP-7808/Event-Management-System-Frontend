@@ -1,4 +1,3 @@
-// Navbar.js
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -10,7 +9,9 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch({ type: "LOGOUT" });
-        navigate('/');
+        localStorage.removeItem("user"); // Remove user from localStorage
+        localStorage.removeItem("token"); // Remove token from localStorage
+        navigate('/'); // Redirect to the homepage after logout
     };
 
     return (
