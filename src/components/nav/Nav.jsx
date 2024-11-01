@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 import './nav.css'; // Import the external CSS file
 
 const Navbar = () => {
