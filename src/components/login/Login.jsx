@@ -51,7 +51,7 @@ const handleGoogleLogin = async () => {
 
   // Handle Google Login response after redirect
   useEffect(() => {
-    const fetchGoogleUser = async () => {
+    const fetchGoogleUser = async (e) => {
         e.preventDefault();
         dispatch({ type: "LOGIN_START" });
         try {
