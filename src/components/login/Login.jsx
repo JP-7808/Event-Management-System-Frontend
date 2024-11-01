@@ -49,36 +49,31 @@ const handleGoogleLogin = async () => {
   }
 };
 
-  // Handle Google Login response after redirect
+  // Fetch Google login status after redirection
   useEffect(() => {
-    const fetchGoogleUser = async (e) => {
-        e.preventDefault();
-        dispatch({ type: "LOGIN_START" });
-        try {
-            const res = await axios.get(
-                "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
-                { withCredentials: true }
-            );
-            
-            console.log("Response received:", res); // Log full response
-            console.log("Response data:", res.data); // Log response data only
-            if (res.data.isAuthenticated) {
-                // Dispatch to update user in AuthContext
-                dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+    const fetchGoogleUser = async () => {
+      try {
+        const res = await axios.get(
+          "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
+          { withCredentials: true }
+        );
 
-                // Store user data and token in localStorage
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("user", JSON.stringify(res.data.user));
-                
-                navigate("/dashboard");
-            }
-        } catch (err) {
-            console.error("Error fetching Google user after login:", err);
+        console.log("Response data:", res.data);
+        if (res.data.isAuthenticated) {
+          // Update user context and localStorage
+          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+
+          navigate("/dashboard");
         }
+      } catch (err) {
+        console.error("Error fetching Google user after login:", err);
+      }
     };
 
     fetchGoogleUser();
-}, [dispatch, navigate]);
+  }, [dispatch, navigate]);
 
 
 
