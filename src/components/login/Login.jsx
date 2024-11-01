@@ -60,7 +60,9 @@ const Login = () => {
         );
         console.log("Google login response:", res.data); // Detailed logging
         if (res.data.isAuthenticated) {
+          localStorage.setItem("token", res.data.token);
           dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+          localStorage.setItem("user", JSON.stringify(res.data.details));
           navigate("/dashboard"); // Redirect to dashboard after successful Google login
         }
       } catch (err) {
