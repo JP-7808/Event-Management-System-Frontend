@@ -52,6 +52,8 @@ const handleGoogleLogin = async () => {
   // Handle Google Login response after redirect
   useEffect(() => {
     const fetchGoogleUser = async () => {
+        e.preventDefault();
+        dispatch({ type: "LOGIN_START" });
         try {
             const res = await axios.get(
                 "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
