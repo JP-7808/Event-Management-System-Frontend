@@ -46,6 +46,7 @@ const Login = () => {
       "https://event-management-system-backend-00sp.onrender.com/api/auth/google",
       "_self"
     );
+
   };
 
   // Fetch Google login status after redirection
@@ -59,11 +60,6 @@ const Login = () => {
 
         console.log("Response data:", res.data);
         if (res.data.isAuthenticated) {
-          // Update user context and localStorage
-          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-
           navigate("/dashboard");
         }
       } catch (err) {
