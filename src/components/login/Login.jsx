@@ -51,10 +51,31 @@ const handleGoogleLogin = async () => {
 
   // Handle Google Login response after redirect
   useEffect(() => {
-    console.log("AuthContext user state updated:", state.user); // Debugging line
-    localStorage.setItem("user", JSON.stringify(state.user));
-  }, [state.user]);
-  
+    const fetchGoogleUser = async () => {
+        try {
+            const res = await axios.get(
+                "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
+                { withCredentials: true }
+            );
+            
+            console.log("res hai", res.data);
+            if (res.data.isAuthenticated) {
+                // Dispatch to update user in AuthContext
+                dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+
+                // Store user data and token in localStorage
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                
+                navigate("/dashboard");
+            }
+        } catch (err) {
+            console.error("Error fetching Google user after login:", err);
+        }
+    };
+
+    fetchGoogleUser();
+}, [dispatch, navigate]);
 
 
 
