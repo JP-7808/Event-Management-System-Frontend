@@ -41,36 +41,42 @@ const Login = () => {
   };
 
   // Handle Google Login
-  const handleGoogleLogin = async () => {
-    try {
-      // Initiates the Google login process
-      window.location.href = 'https://event-management-system-backend-00sp.onrender.com/api/auth/google';
-    } catch (err) {
+const handleGoogleLogin = async () => {
+  try {
+      window.open('https://event-management-system-backend-00sp.onrender.com/api/auth/google', '_self');
+  } catch (err) {
       console.error("Error during Google login:", err);
-    }
-  };
+  }
+};
 
-  // Check for Google login redirect success
+  // Handle Google Login response after redirect
   useEffect(() => {
-    const checkGoogleLogin = async () => {
-      try {
-        const res = await axios.get(
-          "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
-          { withCredentials: true }
-        );
-        console.log("Google login response:", res.data); // Detailed logging
-        if (res.data.isAuthenticated) {
-          localStorage.setItem("token", res.data.token);
-          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
-          localStorage.setItem("user", JSON.stringify(res.data.details));
-          navigate("/dashboard"); // Redirect to dashboard after successful Google login
+    const fetchGoogleUser = async () => {
+        try {
+            const res = await axios.get(
+                "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
+                { withCredentials: true }
+            );
+
+            // Check if the user is authenticated
+            if (res.data.isAuthenticated) {
+                // Save token and user details to localStorage
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                
+                // Dispatch to update context
+                dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+                
+                navigate("/dashboard");
+            }
+        } catch (err) {
+            console.error("Error fetching Google user after login:", err);
         }
-      } catch (err) {
-        console.error("Google login not authenticated:", err);
-      }
     };
-    checkGoogleLogin();
+
+    fetchGoogleUser();
   }, [dispatch, navigate]);
+
 
   return (
     <div className="login">
