@@ -1,48 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import './nav.css';
+import './nav.css'; // Import the external CSS file
 
 const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
-    
-    useEffect(() => {
-        // Check authentication status and fetch user details if logged in
-        const checkAuthStatus = async () => {
-            try {
-                const response = await axios.get('https://event-management-system-backend-uela.onrender.com/api/auth/status', { 
-                    withCredentials: true 
-                });
-                if (response.data.isAuthenticated) {
-                    // Dispatch the user data to context
-                    dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
-                } else {
-                    // If not authenticated, clear any existing user data
-                    dispatch({ type: "LOGOUT" });
-                }
-            } catch (error) {
-                console.error("Authentication check failed:", error);
-            }
-        };
-
-        checkAuthStatus();
-    }, [dispatch]);
+    console.log("Current User in Navbar:", user);
 
     const handleLogout = async () => {
         try {
             await axios.post('https://event-management-system-backend-uela.onrender.com/api/auth/logout', {}, {
-                withCredentials: true
+                withCredentials: true // Send cookies with the request if using sessions
             });
             dispatch({ type: "LOGOUT" });
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
-            Cookies.remove('access_token');
-            navigate('/');
+            localStorage.removeItem("user"); // Remove user from localStorage
+            localStorage.removeItem("token"); // Remove token from localStorage
+            Cookies.remove('access_token'); // Remove token from cookies
+            navigate('/'); // Redirect to the homepage after logout
         } catch (error) {
             console.error("Logout failed:", error);
+            // Handle error if needed
         }
     };
 
