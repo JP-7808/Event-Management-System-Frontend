@@ -47,30 +47,21 @@ const Login = () => {
 
   // Fetch Google login status after redirection
   useEffect(() => {
-    console.log("Attempting to fetch Google user...");
+    console.log("useEffect triggered"); // Debug log to see if it’s called
     const fetchGoogleUser = async () => {
       try {
         const res = await axios.get(
           "https://event-management-system-backend-uela.onrender.com/api/auth/status",
           { withCredentials: true }
         );
-        console.log("google user", res.data.isAuthenticated);
-        if (res.data.isAuthenticated) {
-          dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-          navigate("/dashboard");
-        }
+        console.log("Fetched Google user:", res.data);
       } catch (err) {
-        console.error("Error fetching Google user after login:", err);
-        dispatch({
-          type: "LOGIN_FAILURE",
-          payload: { message: "Failed to fetch Google user" },
-        });
+        console.error("Error in fetchGoogleUser:", err);
       }
     };
   
     fetchGoogleUser();
-  }, [dispatch, navigate]);
+  });
   
 
   return (
