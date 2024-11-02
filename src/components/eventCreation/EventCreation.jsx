@@ -35,7 +35,7 @@ const EventCreation = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await axios.post('https://event-management-system-backend-00sp.onrender.com/api/events/create', formData, {
+            const response = await axios.post('https://event-management-system-backend-uela.onrender.com/api/events/create', formData, {
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${token}` 

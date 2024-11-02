@@ -15,9 +15,9 @@ const EventDashboard = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const res = await axios.get('https://event-management-system-backend-00sp.onrender.com/api/events', { withCredentials: true });
+                const res = await axios.get('https://event-management-system-backend-uela.onrender.com/api/events', { withCredentials: true });
                 const eventsWithAttendeeData = await Promise.all(res.data.map(async (event) => {
-                    const attendeesRes = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/events/${event._id}/attendees`, { withCredentials: true });
+                    const attendeesRes = await axios.get(`https://event-management-system-backend-uela.onrender.com/api/events/${event._id}/attendees`, { withCredentials: true });
                     return {
                         ...event,
                         attendees: attendeesRes.data,
@@ -35,7 +35,7 @@ const EventDashboard = () => {
 
         const fetchCurrentUser = async () => {
             try {
-                const res = await axios.get('https://event-management-system-backend-00sp.onrender.com/api/auth/currentUser', { withCredentials: true });
+                const res = await axios.get('https://event-management-system-backend-uela.onrender.com/api/auth/currentUser', { withCredentials: true });
                 setCurrentUserId(res.data._id);
             } catch (error) {
                 console.error('Error fetching current user:', error);

@@ -13,7 +13,7 @@ const PaymentPage = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const res = await axios.get(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}`, { withCredentials: true });
+                const res = await axios.get(`https://event-management-system-backend-uela.onrender.com/api/events/${eventId}`, { withCredentials: true });
                 setEvent(res.data);
                 console.log("Event Data:", res.data);
             } catch (error) {
@@ -25,7 +25,7 @@ const PaymentPage = () => {
 
     const handlePayment = async () => {
         try {
-            const orderRes = await axios.post('https://event-management-system-backend-00sp.onrender.com/api/payments/create-order', { amount: event.ticketPrice }, { withCredentials: true });
+            const orderRes = await axios.post('https://event-management-system-backend-uela.onrender.com/api/payments/create-order', { amount: event.ticketPrice }, { withCredentials: true });
             const { order } = orderRes.data;
 
             const options = {
@@ -37,7 +37,7 @@ const PaymentPage = () => {
                 order_id: order.id,
                 handler: async function (response) {
                     try {
-                        await axios.post(`https://event-management-system-backend-00sp.onrender.com/api/events/${eventId}/ticket`, {}, { withCredentials: true });
+                        await axios.post(`https://event-management-system-backend-uela.onrender.com/api/events/${eventId}/ticket`, {}, { withCredentials: true });
                         alert('Payment Successful! You are now registered for the event.');
                         navigate(`/events/${eventId}/ticket`);
                     } catch (error) {

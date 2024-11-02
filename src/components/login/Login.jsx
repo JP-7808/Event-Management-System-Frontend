@@ -24,7 +24,7 @@ const Login = () => {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post(
-        "https://event-management-system-backend-00sp.onrender.com/api/auth/login",
+        "https://event-management-system-backend-uela.onrender.com/api/auth/login",
         credentials,
         { withCredentials: true }
       );
@@ -42,7 +42,7 @@ const Login = () => {
 
   // Google login handler
   const handleGoogleLogin = () => {
-    window.location.href = "https://event-management-system-backend-00sp.onrender.com/api/auth/google";
+    window.location.href = "https://event-management-system-backend-uela.onrender.com/api/auth/google";
   };
 
   // Fetch Google login status after redirection
@@ -50,7 +50,7 @@ const Login = () => {
     const fetchGoogleUser = async () => {
       try {
         const res = await axios.get(
-          "https://event-management-system-backend-00sp.onrender.com/api/auth/status",
+          "https://event-management-system-backend-uela.onrender.com/api/auth/status",
           { withCredentials: true }
         );
   

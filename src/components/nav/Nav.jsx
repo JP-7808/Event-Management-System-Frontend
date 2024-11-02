@@ -12,7 +12,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('https://event-management-system-backend-00sp.onrender.com/api/auth/logout', {}, {
+            await axios.post('https://event-management-system-backend-uela.onrender.com/api/auth/logout', {}, {
                 withCredentials: true // Send cookies with the request if using sessions
             });
             dispatch({ type: "LOGOUT" });
