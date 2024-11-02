@@ -1,14 +1,34 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import './nav.css'; 
+import './nav.css';
 
 const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
+    const [currentUser, setCurrentUser] = useState(null);
     const navigate = useNavigate();
-    console.log("Current User in Navbar:", user);
+    console.log("Current User in Navbar:", currentUser);
+
+    // Fetch current user details
+    const fetchCurrentUser = useCallback(async () => {
+        try {
+            const response = await axios.get('https://event-management-system-backend-uela.onrender.com/api/auth/currentUser', {
+                withCredentials: true,
+            });
+            setCurrentUser(response.data);
+            dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
+            localStorage.setItem("user", JSON.stringify(response.data));
+        } catch (error) {
+            console.error("Failed to fetch current user:", error);
+        }
+    }, [dispatch]);
+
+    // Fetch user details when the component mounts
+    useEffect(() => {
+        fetchCurrentUser(); // Call fetchCurrentUser here
+    }, [fetchCurrentUser]); // Include fetchCurrentUser in the dependency array
 
     const handleLogout = async () => {
         try {
@@ -19,10 +39,10 @@ const Navbar = () => {
             localStorage.removeItem("user"); 
             localStorage.removeItem("token"); 
             Cookies.remove('access_token'); 
+            setCurrentUser(null); 
             navigate('/'); 
         } catch (error) {
             console.error("Logout failed:", error);
-            
         }
     };
 
@@ -32,7 +52,7 @@ const Navbar = () => {
                 <Link to="/" className="navbar-logo">Event Management</Link>
             </div>
             <div className="navbar-links">
-                {user ? (
+                {user ? (  // Use user from context to check if logged in
                     <>
                         <span className="navbar-welcome">Welcome, {user.name}!</span>
                         <Link to="/eventCreation" className="navbar-link">Create Event</Link>
