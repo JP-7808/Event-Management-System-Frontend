@@ -70,7 +70,7 @@ const Register = () => {
                     {loading ? 'Registering...' : 'Register'} 
                 </button>
             </form>
-            {loading && <p>Loading, please wait...</p>} 
+            {loading && <p>Registering, please wait...</p>} 
         </div>
     );
 };
