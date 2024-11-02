@@ -12,9 +12,16 @@ body {
 /* Login Component Styling */
 .login {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 40px;
+    width: 40%;
+    
+}
+
+h2{
+    text-align: center;
 }
 
 .lContainer {
@@ -26,7 +33,7 @@ body {
 
 .lInput {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 4px;

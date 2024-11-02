@@ -1,6 +1,8 @@
 .form-container{
     display: flex;
+    justify-content: center;
 }
-.register{
-    width: 50%;
+
+.login{
+    margin-top: 0;
 }
