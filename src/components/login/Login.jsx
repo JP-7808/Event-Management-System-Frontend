@@ -53,7 +53,7 @@ const Login = () => {
           "https://event-management-system-backend-uela.onrender.com/api/auth/status",
           { withCredentials: true }
         );
-  
+        console.log("google user",res.data.isAuthenticated);
         if (res.data.isAuthenticated) {
           dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
           localStorage.setItem("user", JSON.stringify(res.data.user));

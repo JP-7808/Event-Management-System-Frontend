@@ -9,7 +9,7 @@ const EventDashboard = () => {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [currentUserId, setCurrentUserId] = useState(null);
-    const [loading, setLoading] = useState(true); // New loading state
+    const [loading, setLoading] = useState(true); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const EventDashboard = () => {
             } catch (error) {
                 console.error('Error fetching events:', error);
             } finally {
-                setLoading(false); // Set loading to false after fetching events
+                setLoading(false); 
             }
         };
 
@@ -80,7 +80,7 @@ const EventDashboard = () => {
             
             <div className="dashboard-content">
                 <h2>Your Events</h2>
-                {loading ? ( // Conditional rendering for loading state
+                {loading ? ( 
                     <p>Loading events...</p>
                 ) : (
                     <ul className="event-list">
