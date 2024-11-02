@@ -68,7 +68,7 @@ const Login = () => {
   
     // Only fetch Google user status if the user is already authenticated
     fetchGoogleUser();
-  }, [dispatch, navigate]);
+  }, []);
   
 
   return (
