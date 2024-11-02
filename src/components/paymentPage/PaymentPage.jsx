@@ -29,7 +29,7 @@ const PaymentPage = () => {
             const { order } = orderRes.data;
 
             const options = {
-                key: "rzp_live_Egt4Xg9w6VBRsl",
+                key: "rzp_test_wEHfns4O1eHdMO",
                 amount: order.amount,
                 currency: 'INR',
                 name: 'Event Management System',
