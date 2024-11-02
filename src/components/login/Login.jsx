@@ -9,6 +9,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+  
+  console.log("Login component rendered");
 
   const { loading, error, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -61,7 +63,7 @@ const Login = () => {
     };
   
     fetchGoogleUser();
-  });
+  }, []); 
   
 
   return (
