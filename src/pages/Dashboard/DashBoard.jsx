@@ -93,7 +93,7 @@ const EventDashboard = () => {
                                         <h3 className="event-title">{event.title}</h3>
                                         <p className="event-description">{event.description}</p>
                                         <p className="event-location">{event.location}</p>
-                                        <p>DATE: {event.date}, Time: {event.time}</p>
+                                        <p>DATE: {new Date(event.date).toISOString().slice(0, 10)}, Time: {event.time}</p>
                                         
                                         <p className="event-ticket-price">Price: {event.ticketPrice}</p>
                                         
