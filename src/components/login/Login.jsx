@@ -59,7 +59,7 @@ const Login = () => {
         }
       } catch (err) {
         console.error("Error fetching Google user after login:", err);
-        dispatch({ type: "LOGIN_FAILURE", payload: { message: "Failed to fetch Google user" } });
+        dispatch({ type: "LOGIN_FAILURE" });
       }
     };
   
