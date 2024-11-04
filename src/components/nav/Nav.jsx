@@ -9,7 +9,6 @@ const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
     const [currentUser, setCurrentUser] = useState(null);
     const navigate = useNavigate();
-    console.log("Current User in Navbar:", currentUser);
 
     // Fetch current user details
     const fetchCurrentUser = useCallback(async () => {
