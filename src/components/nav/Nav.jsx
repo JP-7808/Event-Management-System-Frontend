@@ -8,6 +8,7 @@ import './nav.css';
 const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
     const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(false); 
     const navigate = useNavigate();
 
     // Fetch current user details
@@ -26,10 +27,11 @@ const Navbar = () => {
 
     // Fetch user details when the component mounts
     useEffect(() => {
-        fetchCurrentUser(); // Call fetchCurrentUser here
-    }, [fetchCurrentUser]); // Include fetchCurrentUser in the dependency array
+        fetchCurrentUser(); 
+    }, [fetchCurrentUser]); 
 
     const handleLogout = async () => {
+        setLoading(true); 
         try {
             await axios.post('https://event-management-system-backend-uela.onrender.com/api/auth/logout', {}, {
                 withCredentials: true 
@@ -42,6 +44,8 @@ const Navbar = () => {
             navigate('/'); 
         } catch (error) {
             console.error("Logout failed:", error);
+        } finally {
+            setLoading(false); 
         }
     };
 
@@ -51,12 +55,18 @@ const Navbar = () => {
                 <Link to="/" className="navbar-logo">Event Management</Link>
             </div>
             <div className="navbar-links">
-                {user ? (  // Use user from context to check if logged in
+                {user ? (
                     <>
                         <span className="navbar-welcome">Welcome, {user.name}!</span>
                         <Link to="/eventCreation" className="navbar-link">Create Event</Link>
                         <Link to="/dashboard" className="navbar-link">All Events</Link>
-                        <button onClick={handleLogout} className="navbar-logout">Logout</button>
+                        <button
+                            onClick={handleLogout}
+                            className="navbar-logout"
+                            disabled={loading} 
+                        >
+                            {loading ? "Logging out..." : "Logout"}
+                        </button>
                     </>
                 ) : (
                     <Link to="/" className="navbar-link">Login</Link>
