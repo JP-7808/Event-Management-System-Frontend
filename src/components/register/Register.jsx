@@ -65,6 +65,7 @@ const Register = () => {
                     value={user.password}
                     onChange={handleChange}
                     required
+                    visible
                 />
                 <button type="submit" disabled={loading}> 
                     {loading ? 'Registering...' : 'Register'} 
